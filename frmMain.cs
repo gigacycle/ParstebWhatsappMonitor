@@ -13,6 +13,7 @@ namespace ParstebWhatsapp
         private bool _dontSendToPatients;
         string _lastFindKey = "";
         long _maxDebtAmount;
+        public static PcrUser User = null;
 
         public frmMain()
         {
@@ -23,6 +24,7 @@ namespace ParstebWhatsapp
             dgvOrgans.AutoGenerateColumns = false;
             txtFromDate.Text = PersianCalendarTools.toPersianDate(DateTime.Now);
             txtToDate.Text = PersianCalendarTools.toPersianDate(DateTime.Now);
+            if (User.UserType > 1) whatsappServiceSettingsToolStripMenuItem.Visible = false;
             loadData(false);
         }
 
@@ -136,6 +138,8 @@ namespace ParstebWhatsapp
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (User.UserType > 2) return;
+
             if (tabControl1.SelectedTab == tbDoctors)
             {
                 if (dgvDoctors.SelectedRows.Count > 1 || dgvDoctors.SelectedRows.Count < 1)
@@ -246,6 +250,12 @@ namespace ParstebWhatsapp
             if (dgvMonitor.SelectedRows.Count < 1)
                 return;
 
+            if (User.UserType > 2)
+            {
+                MessageBox.Show("You are not permitted to use this option!", "Resend Message[s]", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (MessageBox.Show("Do you want to resend selected rows?", "Resend Message[s]", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 for (int i = 0; i < dgvMonitor.SelectedRows.Count; i++)
@@ -322,6 +332,8 @@ namespace ParstebWhatsapp
                     lookFor(frm.Key, dgvDoctors, 0);
                 else if (tabControl1.SelectedTab == tbOrgans)
                     lookFor(frm.Key, dgvOrgans, 0);
+                else if (tabControl1.SelectedTab == tbMonitor)
+                    lookFor(frm.Key, dgvMonitor, 0);
             }
         }
 
@@ -350,6 +362,8 @@ namespace ParstebWhatsapp
                     var value = cell.Value.ToString();
                     if (value.ToLower().Contains(key.ToLower()))
                     {
+                        foreach (DataGridViewRow item in dgv.SelectedRows)
+                            item.Selected = false;
                         row.Selected = true;
                         dgv.FirstDisplayedScrollingRowIndex = row.Index;
                         found = true;
@@ -371,6 +385,8 @@ namespace ParstebWhatsapp
                 lookFor(_lastFindKey, dgvDoctors, dgvDoctors.SelectedRows[0].Index);
             else if (tabControl1.SelectedTab == tbOrgans)
                 lookFor(_lastFindKey, dgvOrgans, dgvOrgans.SelectedRows[0].Index);
+            else if (tabControl1.SelectedTab == tbMonitor)
+                lookFor(_lastFindKey, dgvMonitor, dgvMonitor.SelectedRows[0].Index);
         }
     }
 }

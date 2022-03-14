@@ -38,7 +38,12 @@ namespace ParstebWhatsapp
             }
             #endregion
 
-            Application.Run(new frmMain());
+            frmLogin loginForm = new frmLogin(sqlConnectionString);
+            if (loginForm.ShowDialog() == DialogResult.OK)
+            {
+                frmMain.User = loginForm.User;
+                Application.Run(new frmMain());
+            }
         }
     }
 }

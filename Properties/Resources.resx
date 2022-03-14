@@ -121,4 +121,19 @@
   <data name="db" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\db.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="checked_shield_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\checked_shield_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sqlServer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\sqlServer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\shield_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="usr-login" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\usr-login.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="usr-login1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\usr-login.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

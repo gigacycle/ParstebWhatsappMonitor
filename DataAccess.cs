@@ -497,6 +497,188 @@ namespace ParstebWhatsapp
                 UpdateStaus(id, status);
         }
 
+        public static bool IsUsernameExist(string username)
+        {
+            bool rv = false;
+            string sql = @"SELECT COUNT(username) AS CNT
+                           FROM   Tbl_PcrUsers
+                           WHERE  username = @username";
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, cnn))
+                    {
+                        cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
+
+                        cnn.Open();
+                        int result = (int)cmd.ExecuteScalar();
+                        cnn.Close();
+                        if (result > 0) rv = true;
+                    }
+                }
+            }
+            catch { }
+            return rv;
+        }
+
+        public static PcrUser GetUserInfo(string username)
+        {
+            PcrUser rv = null;
+            string sql = @"SELECT *
+                           FROM   Tbl_PcrUsers
+                           WHERE  username = @username";
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, cnn))
+                    {
+                        cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
+
+                        cnn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        int ordId = reader.GetOrdinal("PRK_Id");
+                        int ordUsername = reader.GetOrdinal("username");
+                        int ordPassword = reader.GetOrdinal("password");
+                        int ordUserType = reader.GetOrdinal("userType");
+                        int ordName = reader.GetOrdinal("name");
+                        int ordLastName = reader.GetOrdinal("lastName");
+                        int ordLastActivityTimeStamp = reader.GetOrdinal("lastActivityTimeStamp");
+                        int ordIncorrectPasswordAttempts = reader.GetOrdinal("IncorrectPasswordAttempts");
+
+                        reader.Read();
+
+                        rv = new PcrUser(
+                            reader.GetInt32(ordId),
+                            reader.GetString(ordUsername),
+                            reader.GetString(ordPassword),
+                            reader.GetInt32(ordUserType),
+                            reader.GetString(ordName),
+                            reader.GetString(ordLastName),
+                            reader.GetDateTime(ordLastActivityTimeStamp),
+                            reader.GetInt32(ordIncorrectPasswordAttempts));
+
+                        cnn.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.LogHelper.Log(Logger.LogTarget.File, Logger.LogType.Error, e.Message);
+            }
+            return rv;
+        }
+
+        public static PcrUser GetUserInfo(int userId)
+        {
+            PcrUser rv = null;
+            string sql = @"SELECT *
+                           FROM   Tbl_PcrUsers
+                           WHERE  PRK_Id = @userId";
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, cnn))
+                    {
+                        cmd.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
+
+                        cnn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        int ordId = reader.GetOrdinal("PRK_Id");
+                        int ordUsername = reader.GetOrdinal("username");
+                        int ordPassword = reader.GetOrdinal("password");
+                        int ordUserType = reader.GetOrdinal("userType");
+                        int ordName = reader.GetOrdinal("name");
+                        int ordLastName = reader.GetOrdinal("lastName");
+                        int ordLastActivityTimeStamp = reader.GetOrdinal("lastActivityTimeStamp");
+                        int ordIncorrectPasswordAttempts = reader.GetOrdinal("IncorrectPasswordAttempts");
+
+                        reader.Read();
+
+                        rv = new PcrUser(
+                            reader.GetInt32(ordId),
+                            reader.GetString(ordUsername),
+                            reader.GetString(ordPassword),
+                            reader.GetInt32(ordUserType),
+                            reader.GetString(ordName),
+                            reader.GetString(ordLastName),
+                            reader.GetDateTime(ordLastActivityTimeStamp),
+                            reader.GetInt32(ordIncorrectPasswordAttempts));
+
+                        cnn.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.LogHelper.Log(Logger.LogTarget.File, Logger.LogType.Error, e.Message);
+            }
+            return rv;
+        }
+
+        public static int UpdateUserIncorrectPassword(string username, int incorrectPasswordAttempts)
+        {
+            int rowsAffected = 0;
+            try
+            {
+                string sql =
+                      @"UPDATE dbo.Tbl_PcrUsers 
+                        SET IncorrectPasswordAttempts = @incorrectPasswordAttempts,
+                            lastActivityTimeStamp = @lastActivityTimeStamp
+                        WHERE username = @username";
+
+                using (SqlConnection cnn = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, cnn))
+                    {
+                        cmd.Parameters.Add("@incorrectPasswordAttempts", SqlDbType.Int).Value = incorrectPasswordAttempts;
+                        cmd.Parameters.Add("@lastActivityTimeStamp", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
+
+                        cnn.Open();
+                        rowsAffected = cmd.ExecuteNonQuery();
+                        cnn.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.LogHelper.Log(Logger.LogTarget.File, Logger.LogType.Error, e.Message);
+            }
+            return rowsAffected;
+        }
+
+        public static bool InsertIntoPcrLog(PcrUser user, string description)
+        {
+            bool result = false;
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("Cspc_Insert_PcrUserLog", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int)).Value = user.Id;
+                        cmd.Parameters.Add(new SqlParameter("@Desc", SqlDbType.NVarChar)).Value = description;
+
+
+                        cnn.Open();
+                        int rowsAdded = cmd.ExecuteNonQuery();
+                        cnn.Close();
+                        if (rowsAdded > 0)
+                            result = true;
+                    }
+                }
+            }
+            catch (Exception e) { Logger.LogHelper.Log(Logger.LogTarget.File, Logger.LogType.Error, e.Message); }
+            return result;
+        }
+
         public static bool UpdateSetting(string name, string value)
         {
             bool result = false;
