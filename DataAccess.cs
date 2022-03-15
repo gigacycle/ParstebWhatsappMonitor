@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logger;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -221,7 +222,39 @@ namespace ParstebWhatsapp
             }
             catch (Exception e)
             {
-                //LogHelper.Log(LogTarget.File, LogType.Error, e.Message);
+                LogHelper.Log(LogTarget.File, LogType.Error, e.Message);
+            }
+            return result;
+        }
+
+        public static DataTable GetWhatsappAdmitQueueItem(int queueId, int admitId)
+        {
+            DataTable result = null;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("SPC_GetWhatsappReadyAnswerItem", con))
+                    {
+                        if (queueId > 0)
+                            cmd.Parameters.Add("@QueueId", SqlDbType.Int).Value = queueId;
+                        if (admitId > 0)
+                            cmd.Parameters.Add("@admitId", SqlDbType.Int).Value = admitId;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        SqlDataAdapter da = new SqlDataAdapter();
+                        da.SelectCommand = cmd;
+                        var ds = new DataSet();
+                        da.Fill(ds);
+                        con.Close();
+                        if (ds.Tables.Count > 0)
+                            result = ds.Tables[0];
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Log(LogTarget.File, LogType.Error, e.Message);
             }
             return result;
         }
@@ -372,7 +405,7 @@ namespace ParstebWhatsapp
                         cmd.Parameters.Add("@id", SqlDbType.BigInt).Value = id;
 
                         cnn.Open();
-                        var re =cmd.ExecuteNonQuery();
+                        var re = cmd.ExecuteNonQuery();
                         cnn.Close();
                         if (re > 0)
                             result = true;
@@ -446,7 +479,7 @@ namespace ParstebWhatsapp
                     }
                 }
             }
-            catch (Exception e) { Logger.LogHelper.Log(Logger.LogTarget.File, Logger.LogType.Error, e.Message); }
+            catch (Exception e) { LogHelper.Log(LogTarget.File, LogType.Error, e.Message); }
             return result;
         }
 
@@ -677,6 +710,330 @@ namespace ParstebWhatsapp
             }
             catch (Exception e) { Logger.LogHelper.Log(Logger.LogTarget.File, Logger.LogType.Error, e.Message); }
             return result;
+        }
+
+        public static DataTable GetAttachedTestResult(int admitId)
+        {
+            DataTable result = null;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("SPC_GetAttachedTestResult", con))
+                    {
+                        cmd.Parameters.Add("@admitId", SqlDbType.Int).Value = admitId;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        SqlDataAdapter da = new SqlDataAdapter();
+                        da.SelectCommand = cmd;
+                        var ds = new DataSet();
+                        da.Fill(ds);
+                        con.Close();
+                        if (ds.Tables.Count > 0)
+                            result = ds.Tables[0];
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Log(LogTarget.File, LogType.Error, "[DataAccess\\GetAttachedTestResult] " + e.Message);
+            }
+            return result;
+        }
+
+        public static DataTable GetAttachedTestResultById(long attachId)
+        {
+            DataTable result = null;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("SPC_GetAttachedTestResultById", con))
+                    {
+                        cmd.Parameters.Add("@attachId", SqlDbType.Int).Value = Convert.ToInt32(attachId);
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        SqlDataAdapter da = new SqlDataAdapter();
+                        da.SelectCommand = cmd;
+                        var ds = new DataSet();
+                        da.Fill(ds);
+                        con.Close();
+                        if (ds.Tables.Count > 0)
+                            result = ds.Tables[0];
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Log(LogTarget.File, LogType.Error, "[DataAccess\\GetAttachedTestResult] " + e.Message);
+            }
+            return result;
+        }
+
+        public static long CreateUpdateWhatsappMessage(long id, string whatsAppId, long whatsAppAdmitQueueId, long admitId, string phoneNumber, long parsicAttachId, string messageBody, string fileName, int status, int sendStatus, int attempt)
+        {
+            long result = -1;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("Cspc_CreateUpdateWhatsAppMessage", con))
+                    {
+                        if (id > 0)
+                            cmd.Parameters.Add("@id", SqlDbType.BigInt).Value = id;
+                        if (whatsAppAdmitQueueId > 0)
+                            cmd.Parameters.Add("@whatsAppAdmitQueueId", SqlDbType.BigInt).Value = whatsAppAdmitQueueId;
+                        if (admitId > 0)
+                            cmd.Parameters.Add("@admitId", SqlDbType.BigInt).Value = admitId;
+                        if (parsicAttachId > 0)
+                            cmd.Parameters.Add("@parsicAttachId", SqlDbType.BigInt).Value = parsicAttachId;
+                        if (!string.IsNullOrEmpty(whatsAppId))
+                            cmd.Parameters.Add("@whatsAppWebId", SqlDbType.NVarChar).Value = whatsAppId;
+                        if (!string.IsNullOrEmpty(messageBody))
+                            cmd.Parameters.Add("@message", SqlDbType.NVarChar).Value = messageBody;
+                        if (!string.IsNullOrEmpty(fileName))
+                            cmd.Parameters.Add("@fileName", SqlDbType.NVarChar).Value = fileName;
+                        if (!string.IsNullOrEmpty(phoneNumber))
+                            cmd.Parameters.Add("@whatsappNumber", SqlDbType.NVarChar).Value = phoneNumber;
+                        if (status > -1)
+                            cmd.Parameters.Add("@status", SqlDbType.Int).Value = status;
+                        if (sendStatus > -1)
+                            cmd.Parameters.Add("@sendStatus", SqlDbType.Int).Value = sendStatus;
+                        if (attempt > 0)
+                            cmd.Parameters.Add("@attempt", SqlDbType.Int).Value = attempt;
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        con.Open();
+                        object sqlResult = cmd.ExecuteScalar();
+                        if (sqlResult.GetType() != typeof(DBNull))
+                            result = Convert.ToInt64(sqlResult);
+                        con.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Log(LogTarget.File, LogType.Error, "[DataAccess\\CreateUpdateWhatsappMessage] " + e.Message);
+            }
+            return result;
+        }
+
+        public static DataTable GetWhatsappNotSentMessages(int maxAttempt)
+        {
+            DataTable result = null;
+            string query = @"SELECT * FROM dbo.Tbl_WhatsAppMessageQueue Where attempt < @maxAttempt and (sendStatus is null or (sendStatus <> 1 and sendStatus <> 10))";
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.Add("@maxAttempt", SqlDbType.Int).Value = maxAttempt;
+
+                        SqlDataAdapter da = new SqlDataAdapter();
+                        da.SelectCommand = cmd;
+                        var ds = new DataSet();
+                        da.Fill(ds);
+                        con.Close();
+                        if (ds.Tables.Count > 0)
+                            result = ds.Tables[0];
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Log(LogTarget.File, LogType.Error, "[DataAccess\\GetWhatsappNotSentMessages] " + e.Message);
+            }
+            return result;
+        }
+
+        public static DataTable GetDoctorCrmContactList(long doctorCrmSettingId)
+        {
+            DataTable result = null;
+            string query = @"select * from Tbl_DoctorsCrmContactList where Frk_doctorCrmSettingId = @doctorSettingId";
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.Add("@doctorSettingId", SqlDbType.BigInt).Value = doctorCrmSettingId;
+
+                        SqlDataAdapter da = new SqlDataAdapter();
+                        da.SelectCommand = cmd;
+                        var ds = new DataSet();
+                        da.Fill(ds);
+                        con.Close();
+                        if (ds.Tables.Count > 0)
+                            result = ds.Tables[0];
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Log(LogTarget.File, LogType.Error, "[DataAccess\\GetDoctorCrmContactList] " + e.Message);
+            }
+            return result;
+        }
+
+        public static DataTable GetOrganCrmContactList(long organCrmSettingId)
+        {
+            DataTable result = null;
+            string query = @"select * from Tbl_OrgansCrmContactList where Frk_organCrmSettingId = @organSettingId";
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.Add("@organSettingId", SqlDbType.BigInt).Value = organCrmSettingId;
+
+                        SqlDataAdapter da = new SqlDataAdapter();
+                        da.SelectCommand = cmd;
+                        var ds = new DataSet();
+                        da.Fill(ds);
+                        con.Close();
+                        if (ds.Tables.Count > 0)
+                            result = ds.Tables[0];
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Log(LogTarget.File, LogType.Error, "[DataAccess\\GetOrganCrmContactList] " + e.Message);
+            }
+            return result;
+        }
+
+        public static WhatsappAdmitQueueItem GetWhatsappAdmitQueueItemById(long admitQueueId)
+        {
+            WhatsappAdmitQueueItem rv = null;
+            string sql = @"SELECT top(1) *
+                           FROM   Tbl_WhatsAppAdmitQueue
+                           WHERE  Prk_Id = @admitQueueId";
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, cnn))
+                    {
+                        cmd.Parameters.Add("@admitQueueId", SqlDbType.BigInt).Value = admitQueueId;
+
+                        cnn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.HasRows)
+                            rv = new WhatsappAdmitQueueItem(reader);
+                        cnn.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                rv = null;
+                LogHelper.Log(LogTarget.File, LogType.Error, "[DataAccess\\GetWhatsappAdmitQueueItemById] " + e.Message);
+            }
+            return rv;
+        }
+
+        public static long CreateUpdateWhatsappAdmitQueue(long id, long parsicSmsQueueId, long admitId, long statusId)
+        {
+            long result = -1;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("Cspc_CreateUpdateWhatsAppAdmitQueue", con))
+                    {
+                        if (id > 0)
+                            cmd.Parameters.Add("@id", SqlDbType.BigInt).Value = id;
+                        if (parsicSmsQueueId > 0)
+                            cmd.Parameters.Add("@parsicSmsQueueId", SqlDbType.BigInt).Value = parsicSmsQueueId;
+                        if (admitId > 0)
+                            cmd.Parameters.Add("@admitId", SqlDbType.BigInt).Value = admitId;
+                        if (statusId >= 0)
+                            cmd.Parameters.Add("@statusId", SqlDbType.BigInt).Value = statusId;
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        con.Open();
+                        object sqlResult = cmd.ExecuteScalar();
+                        if (sqlResult.GetType() != typeof(DBNull))
+                            result = Convert.ToInt64(sqlResult);
+                        con.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Log(LogTarget.File, LogType.Error, "[DataAccess\\CreateUpdateWhatsappAdmitQueue] " + e.Message);
+            }
+            return result;
+        }
+
+        public static long CreateUpdateWhatsappMessage(WhatsappMessageRequest whatsappMessageRequest)
+        {
+            return CreateUpdateWhatsappMessage(whatsappMessageRequest.Id, whatsappMessageRequest.WhatsAppWebId, whatsappMessageRequest.WhatsAppAdmitQueueId, whatsappMessageRequest.AdmitId, whatsappMessageRequest.WhatsAppNumber, whatsappMessageRequest.ParsicAttachId, whatsappMessageRequest.Message, whatsappMessageRequest.FileName, (int)whatsappMessageRequest.Status, whatsappMessageRequest.SendStatus, whatsappMessageRequest.Attempt);
+        }
+
+        public static OrganCrmSetting GetOrganCrmSettings(long organId)
+        {
+            OrganCrmSetting rv = null;
+            string sql = @"SELECT top(1) *
+                           FROM   Tbl_OrgansCrmSettings
+                           WHERE  organId = @organId";
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, cnn))
+                    {
+                        cmd.Parameters.Add("@organId", SqlDbType.BigInt).Value = organId;
+
+                        cnn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.HasRows)
+                            rv = new OrganCrmSetting(reader);
+                        cnn.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                rv = null;
+                LogHelper.Log(LogTarget.File, LogType.Error, "[DataAccess\\GetOrganCrmSettings] " + e.Message);
+            }
+            return rv;
+        }
+
+        public static DoctorCrmSetting GetDoctorCrmSettings(long doctorId)
+        {
+            DoctorCrmSetting rv = null;
+            string sql = @"SELECT top(1) *
+                           FROM   Tbl_DoctorsCrmSettings
+                           WHERE  doctorId = @doctorId";
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, cnn))
+                    {
+                        cmd.Parameters.Add("@doctorId", SqlDbType.BigInt).Value = doctorId;
+
+                        cnn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.HasRows)
+                            rv = new DoctorCrmSetting(reader);
+                        cnn.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                rv = null;
+                LogHelper.Log(LogTarget.File, LogType.Error, "[DataAccess\\GetDoctorCrmSettings] " + e.Message);
+            }
+            return rv;
         }
 
         public static bool UpdateSetting(string name, string value)

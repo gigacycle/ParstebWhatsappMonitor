@@ -105,33 +105,60 @@ namespace ParstebWhatsapp
 
                     DateTime from = PersianCalendarTools.toGregorianDate(txtFromDate.Text);
                     DateTime to = PersianCalendarTools.toGregorianDate(txtToDate.Text);
+                    int.TryParse(txtAdmitId.Text, out int admitId);
 
-                    if (to.CompareTo(from) < 0)
+                    if (admitId > 0)
                     {
-                        MessageBox.Show("Start date is greater than end date! please fix it.", "Invalid Data Entry", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        return;
-                    }
+                        frmWait waitDialog = new frmWait("Loading data from database!", "Please wait...");
+                        waitDialog.Show();
 
-                    frmWait waitDialog = new frmWait("Loading data from database!", "Please wait...");
-                    waitDialog.Show();
-
-                    new Thread(() =>
-                    {
-                        DataTable dt = DataAccess.GetWhatsappAdmitQueueList(from, to);
-                        try
+                        new Thread(() =>
                         {
-                            BeginInvoke(new MethodInvoker(delegate
+                            DataTable dt = DataAccess.GetWhatsappAdmitQueueItem(-1, admitId);
+                            try
                             {
-                                dgvMonitor.DataSource = dt;
-                                if (dgvMonitor.RowCount > 0)
-                                    lblRowCount.Text = dgvMonitor.RowCount + " Items";
-                                else
-                                    lblRowCount.Text = "";
-                                waitDialog.Invoke(new Action(() => { waitDialog.Close(); }));
-                            }));
+                                BeginInvoke(new MethodInvoker(delegate
+                                {
+                                    dgvMonitor.DataSource = dt;
+                                    if (dgvMonitor.RowCount > 0)
+                                        lblRowCount.Text = dgvMonitor.RowCount + " Items";
+                                    else
+                                        lblRowCount.Text = "";
+                                    waitDialog.Invoke(new Action(() => { waitDialog.Close(); }));
+                                }));
+                            }
+                            catch { }
+                        }).Start();
+                    }
+                    else
+                    {
+                        if (to.CompareTo(from) < 0)
+                        {
+                            MessageBox.Show("Start date is greater than end date! please fix it.", "Invalid Data Entry", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            return;
                         }
-                        catch { }
-                    }).Start();
+
+                        frmWait waitDialog = new frmWait("Loading data from database!", "Please wait...");
+                        waitDialog.Show();
+
+                        new Thread(() =>
+                        {
+                            DataTable dt = DataAccess.GetWhatsappAdmitQueueList(from, to);
+                            try
+                            {
+                                BeginInvoke(new MethodInvoker(delegate
+                                {
+                                    dgvMonitor.DataSource = dt;
+                                    if (dgvMonitor.RowCount > 0)
+                                        lblRowCount.Text = dgvMonitor.RowCount + " Items";
+                                    else
+                                        lblRowCount.Text = "";
+                                    waitDialog.Invoke(new Action(() => { waitDialog.Close(); }));
+                                }));
+                            }
+                            catch { }
+                        }).Start();
+                    }
                 }
             }
         }
@@ -162,7 +189,7 @@ namespace ParstebWhatsapp
             }
         }
 
-        private void tabControl_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             loadData(false);
         }
@@ -245,16 +272,54 @@ namespace ParstebWhatsapp
             timer1.Enabled = ((CheckBox)sender).Checked;
         }
 
-        private void resendMessagesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void forceSendToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dgvMonitor.SelectedRows.Count < 1)
+            if (dgvMonitor.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("More than one row selected!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
+            }
 
+            /*
             if (User.UserType > 2)
             {
                 MessageBox.Show("You are not permitted to use this option!", "Resend Message[s]", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            */
+
+            if (MessageBox.Show("Do you want to force send selected items?", "Force Send", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                for (int i = 0; i < dgvMonitor.SelectedRows.Count; i++)
+                {
+                    WhatsappAdmitQueueItem wpReq = null;
+
+                    if (!DataAccess.HasValue(dgvMonitor.SelectedRows[i].Cells["colAdmitId"].Value))
+                        continue;
+                    int admitId = (int)dgvMonitor.SelectedRows[i].Cells["colAdmitId"].Value;
+                    DataTable dt = DataAccess.GetWhatsappAdmitQueueItem(-1, admitId);
+                    if (dt.Rows.Count > 0)
+                        wpReq = new WhatsappAdmitQueueItem(dt.Rows[0]);
+                    if (wpReq == null) continue;
+                    WhatsappAPI.BaseUrl = _apiBaseUrl;
+                    SendMessage.Send(wpReq, _organExceptions, _maxDebtAmount, _dontSendToPatients, _patientMessage, _debtorMessage, _organMessage, _doctorMessage);
+
+                }
+            }
+        }
+
+        private void resendMessagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvMonitor.SelectedRows.Count < 1)
+                return;
+
+            /*
+            if (User.UserType > 2)
+            {
+                MessageBox.Show("You are not permitted to use this option!", "Resend Message[s]", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            */
 
             if (MessageBox.Show("Do you want to resend selected rows?", "Resend Message[s]", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {

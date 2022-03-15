@@ -96,10 +96,17 @@
             this.colAdmitTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRamainedFee = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.resendMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.forceSendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.txtAdmitId = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbDoctors.SuspendLayout();
@@ -110,6 +117,8 @@
             this.tbMonitor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMonitor)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -483,13 +492,12 @@
             // 
             // tbMonitor
             // 
+            this.tbMonitor.Controls.Add(this.label4);
+            this.tbMonitor.Controls.Add(this.groupBox2);
+            this.tbMonitor.Controls.Add(this.groupBox1);
             this.tbMonitor.Controls.Add(this.chkAutoRefresh);
             this.tbMonitor.Controls.Add(this.lblRowCount);
             this.tbMonitor.Controls.Add(this.btnLoadData);
-            this.tbMonitor.Controls.Add(this.txtToDate);
-            this.tbMonitor.Controls.Add(this.label2);
-            this.tbMonitor.Controls.Add(this.txtFromDate);
-            this.tbMonitor.Controls.Add(this.label1);
             this.tbMonitor.Controls.Add(this.dgvMonitor);
             this.tbMonitor.Location = new System.Drawing.Point(4, 25);
             this.tbMonitor.Name = "tbMonitor";
@@ -502,7 +510,7 @@
             // chkAutoRefresh
             // 
             this.chkAutoRefresh.AutoSize = true;
-            this.chkAutoRefresh.Location = new System.Drawing.Point(555, 10);
+            this.chkAutoRefresh.Location = new System.Drawing.Point(772, 14);
             this.chkAutoRefresh.Name = "chkAutoRefresh";
             this.chkAutoRefresh.Size = new System.Drawing.Size(88, 17);
             this.chkAutoRefresh.TabIndex = 17;
@@ -513,7 +521,7 @@
             // lblRowCount
             // 
             this.lblRowCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblRowCount.Location = new System.Drawing.Point(847, 8);
+            this.lblRowCount.Location = new System.Drawing.Point(849, 12);
             this.lblRowCount.Name = "lblRowCount";
             this.lblRowCount.Size = new System.Drawing.Size(127, 23);
             this.lblRowCount.TabIndex = 16;
@@ -521,9 +529,9 @@
             // 
             // btnLoadData
             // 
-            this.btnLoadData.Location = new System.Drawing.Point(484, 6);
+            this.btnLoadData.Location = new System.Drawing.Point(701, 9);
             this.btnLoadData.Name = "btnLoadData";
-            this.btnLoadData.Size = new System.Drawing.Size(65, 23);
+            this.btnLoadData.Size = new System.Drawing.Size(65, 30);
             this.btnLoadData.TabIndex = 15;
             this.btnLoadData.Text = "Load";
             this.btnLoadData.UseVisualStyleBackColor = true;
@@ -531,7 +539,7 @@
             // 
             // txtToDate
             // 
-            this.txtToDate.Location = new System.Drawing.Point(339, 8);
+            this.txtToDate.Location = new System.Drawing.Point(337, 11);
             this.txtToDate.Name = "txtToDate";
             this.txtToDate.Size = new System.Drawing.Size(117, 20);
             this.txtToDate.TabIndex = 14;
@@ -540,7 +548,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(247, 11);
+            this.label2.Location = new System.Drawing.Point(245, 14);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 13);
             this.label2.TabIndex = 13;
@@ -548,7 +556,7 @@
             // 
             // txtFromDate
             // 
-            this.txtFromDate.Location = new System.Drawing.Point(108, 8);
+            this.txtFromDate.Location = new System.Drawing.Point(106, 11);
             this.txtFromDate.Name = "txtFromDate";
             this.txtFromDate.Size = new System.Drawing.Size(117, 20);
             this.txtFromDate.TabIndex = 12;
@@ -557,7 +565,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 11);
+            this.label1.Location = new System.Drawing.Point(4, 14);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 13);
             this.label1.TabIndex = 11;
@@ -596,7 +604,7 @@
             this.colRamainedFee,
             this.colStartTime});
             this.dgvMonitor.ContextMenuStrip = this.contextMenuStrip2;
-            this.dgvMonitor.Location = new System.Drawing.Point(3, 34);
+            this.dgvMonitor.Location = new System.Drawing.Point(3, 45);
             this.dgvMonitor.Name = "dgvMonitor";
             this.dgvMonitor.ReadOnly = true;
             this.dgvMonitor.RowHeadersVisible = false;
@@ -606,7 +614,7 @@
             this.dgvMonitor.ShowCellErrors = false;
             this.dgvMonitor.ShowEditingIcon = false;
             this.dgvMonitor.ShowRowErrors = false;
-            this.dgvMonitor.Size = new System.Drawing.Size(973, 496);
+            this.dgvMonitor.Size = new System.Drawing.Size(973, 485);
             this.dgvMonitor.TabIndex = 7;
             this.dgvMonitor.DoubleClick += new System.EventHandler(this.dgvMonitor_DoubleClick);
             // 
@@ -716,17 +724,14 @@
             this.colStartTime.Name = "colStartTime";
             this.colStartTime.ReadOnly = true;
             // 
-            // timer1
-            // 
-            this.timer1.Interval = 15000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // contextMenuStrip2
             // 
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resendMessagesToolStripMenuItem});
+            this.resendMessagesToolStripMenuItem,
+            this.toolStripMenuItem4,
+            this.forceSendToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(216, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(216, 76);
             // 
             // resendMessagesToolStripMenuItem
             // 
@@ -735,6 +740,72 @@
             this.resendMessagesToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.resendMessagesToolStripMenuItem.Text = "Resend Message[s]";
             this.resendMessagesToolStripMenuItem.Click += new System.EventHandler(this.resendMessagesToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(212, 6);
+            // 
+            // forceSendToolStripMenuItem
+            // 
+            this.forceSendToolStripMenuItem.Name = "forceSendToolStripMenuItem";
+            this.forceSendToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
+            this.forceSendToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.forceSendToolStripMenuItem.Text = "Force Send";
+            this.forceSendToolStripMenuItem.Click += new System.EventHandler(this.forceSendToolStripMenuItem_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 15000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // txtAdmitId
+            // 
+            this.txtAdmitId.Location = new System.Drawing.Point(65, 12);
+            this.txtAdmitId.Name = "txtAdmitId";
+            this.txtAdmitId.Size = new System.Drawing.Size(117, 20);
+            this.txtAdmitId.TabIndex = 19;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 15);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(51, 13);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "Admit Id :";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtFromDate);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.txtToDate);
+            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(465, 36);
+            this.groupBox1.TabIndex = 20;
+            this.groupBox1.TabStop = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.txtAdmitId);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Location = new System.Drawing.Point(501, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(194, 36);
+            this.groupBox2.TabIndex = 21;
+            this.groupBox2.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(475, 16);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(18, 13);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Or";
             // 
             // frmMain
             // 
@@ -760,6 +831,10 @@
             this.tbMonitor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMonitor)).EndInit();
             this.contextMenuStrip2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -831,6 +906,13 @@
         private System.Windows.Forms.CheckBox chkAutoRefresh;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem resendMessagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem forceSendToolStripMenuItem;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox txtAdmitId;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 

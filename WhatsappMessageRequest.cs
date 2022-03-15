@@ -11,6 +11,7 @@ namespace ParstebWhatsapp
         public long AdmitId;
         public long WhatsAppAdmitQueueId;
         public long ParsicAttachId;
+        public string WhatsAppWebId;
         public string Message;
         public string FileName;
         public string WhatsAppNumber;
@@ -29,6 +30,7 @@ namespace ParstebWhatsapp
             WhatsAppAdmitQueueId = HasValue(row["whatsAppAdmitQueueId"]) ? (long)row["whatsAppAdmitQueueId"] : -1;
             AdmitId = HasValue(row["admitId"]) ? (long)row["admitId"] : -1;
             ParsicAttachId = HasValue(row["parsicAttachId"]) ? (long)row["parsicAttachId"] : -1;
+            WhatsAppWebId = HasValue(row["whatsAppWebId"]) ? (string)row["whatsAppWebId"] : null;
             Message = HasValue(row["message"]) ? (string)row["message"] : null;
             FileName = HasValue(row["fileName"]) ? (string)row["fileName"] : null;
             WhatsAppNumber = HasValue(row["whatsappNumber"]) ? (string)row["whatsappNumber"] : null;
