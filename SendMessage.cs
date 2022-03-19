@@ -77,7 +77,7 @@ namespace ParstebWhatsapp
             }
         }
 
-        private static bool sendTestResult(WhatsappAdmitQueueItem qItem, string debtorMessage, string patientGreetingMessage, long maxDebtAmount, bool credited, bool sendToPatient, bool sendToOthers, string[] otherNumbers, string thirdPartyGreetingMessage, bool isPersonalRequest)
+        private static bool sendTestResult(WhatsappAdmitQueueItem qItem, string patientGreetingMessage, string debtorMessage, long maxDebtAmount, bool credited, bool sendToPatient, bool sendToOthers, string[] otherNumbers, string thirdPartyGreetingMessage, bool isPersonalRequest)
         {
             bool success = true;
 
@@ -110,16 +110,7 @@ namespace ParstebWhatsapp
                         DataAccess.CreateUpdateWhatsappAdmitQueue(qItem.Id, qItem.ParsicSmsQueueId, qItem.AdmitId, 4);
                         return false;
                     }
-
-                    long messageId = DataAccess.CreateUpdateWhatsappMessage(-1, null, qItem.Id, qItem.AdmitId, Tools.GlobalizePhoneNumber("98", qItem.MobileNumber), -1, debtorMessage, null, 0, 0, 1);
-                    if (messageId > 0)
-                    {
-                        string response = WhatsappAPI.SendMessage(messageId, Tools.GlobalizePhoneNumber("98", qItem.MobileNumber), qItem.AdmitId.ToString(), debtorMessage, null, null);
-                        if (response == "true")
-                            DataAccess.CreateUpdateWhatsappMessage(messageId, null, -1, -1, null, -1, null, null, -1, 1, -1);
-                        else
-                            DataAccess.CreateUpdateWhatsappMessage(messageId, null, -1, -1, null, -1, null, null, -1, 10, 3);
-                    }
+                    sendTestResultToPatient(qItem, patientGreetingMessage);
                 }
                 else // not debtor
                 {
@@ -152,15 +143,7 @@ namespace ParstebWhatsapp
                                 return false;
                             }
 
-                            long messageId = DataAccess.CreateUpdateWhatsappMessage(-1, null, qItem.Id, qItem.AdmitId, Tools.GlobalizePhoneNumber("98", qItem.MobileNumber), -1, debtorMessage, null, 0, 0, 1);
-                            if (messageId > 0)
-                            {
-                                string response = WhatsappAPI.SendMessage(messageId, Tools.GlobalizePhoneNumber("98", qItem.MobileNumber), qItem.AdmitId.ToString(), debtorMessage, null, null);
-                                if (response == "true")
-                                    DataAccess.CreateUpdateWhatsappMessage(messageId, null, -1, -1, null, -1, null, null, -1, 1, -1);
-                                else
-                                    DataAccess.CreateUpdateWhatsappMessage(messageId, null, -1, -1, null, -1, null, null, -1, 10, 3);
-                            }
+                            sendTestResultToPatient(qItem, patientGreetingMessage);
                         }
                         else // not debtor
                         {
