@@ -9,7 +9,7 @@ namespace ParstebWhatsapp
     public partial class frmMain : Form
     {
         private string _apiBaseUrl, _debtorMessage, _organMessage, _doctorMessage, _patientMessage, _organExceptions;
-        private int _reloadInterval, _retryInterval, _maxAttempts;
+        private int _reloadInterval, _retryInterval, _maxAttempts, _daysBeforeToday;
         private bool _dontSendToPatients;
         string _lastFindKey = "";
         long _maxDebtAmount;
@@ -35,6 +35,7 @@ namespace ParstebWhatsapp
             int.TryParse(DataAccess.GetSettingValue("wpReloadInterval", "10"), out int reloadInterval);
             int.TryParse(DataAccess.GetSettingValue("wpRetryInterval", "5"), out int retryInterval);
             int.TryParse(DataAccess.GetSettingValue("wpMaxAttempts", "3"), out int maxAttempts);
+            int.TryParse(DataAccess.GetSettingValue("wpDaysBeforeTodayToSend", "1"), out int daysBeforeToday);
             _debtorMessage = DataAccess.GetSettingValue("wpDebtorMessage", "مراجعه کننده عزیز @N \nجواب آزمایش شما آماده است و پس از تسویه حساب میتوانید جواب را از وبسایت آزمایشگاه پارس طب به نشانی\nhttps://parsteblab.com/ \nدریافت نمایید.");
             _organMessage = DataAccess.GetSettingValue("wpOrganMessage", "جواب آزمایش @N آماده شده و تقدیم شما میگردد:");
             _doctorMessage = DataAccess.GetSettingValue("wpDoctorMessage", "جواب آزمایش @N آماده شده و تقدیم شما میگردد:");
@@ -48,6 +49,7 @@ namespace ParstebWhatsapp
             _maxAttempts = maxAttempts;
             _dontSendToPatients = dontSendToPatients;
             _maxDebtAmount = maxDebtAmount;
+            _daysBeforeToday = daysBeforeToday;
         }
 
         private void loadData(bool forceLoad)
@@ -358,7 +360,7 @@ namespace ParstebWhatsapp
 
         private void whatsappServiceSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frm = new frmSettings(_apiBaseUrl, _reloadInterval, _retryInterval, _maxAttempts, _debtorMessage, _organMessage, _doctorMessage, _patientMessage, _dontSendToPatients, _organExceptions, _maxDebtAmount);
+            var frm = new frmSettings(_apiBaseUrl, _reloadInterval, _retryInterval, _maxAttempts, _daysBeforeToday, _debtorMessage, _organMessage, _doctorMessage, _patientMessage, _dontSendToPatients, _organExceptions, _maxDebtAmount);
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 _reloadInterval = frm.ReloadInterval;
@@ -372,6 +374,7 @@ namespace ParstebWhatsapp
                 _dontSendToPatients = frm.DontSendToPatients;
                 _maxDebtAmount = frm.MaxDebtAmount;
                 _organExceptions = frm.OrganExceptions;
+                _daysBeforeToday = frm.DaysBeforeToday;
 
                 DataAccess.UpdateSetting("wpApiBaseUrl", frm.BaseUrl);
                 DataAccess.UpdateSetting("wpReloadInterval", frm.ReloadInterval.ToString());
@@ -384,6 +387,7 @@ namespace ParstebWhatsapp
                 DataAccess.UpdateSetting("wpDontSentToPatientsByDefault", frm.DontSendToPatients.ToString());
                 DataAccess.UpdateSetting("wpMaxDebtAmount", frm.MaxDebtAmount.ToString());
                 DataAccess.UpdateSetting("wpOrganExceptions", frm.OrganExceptions);
+                DataAccess.UpdateSetting("wpDaysBeforeTodayToSend", frm.DaysBeforeToday.ToString());
             }
         }
 

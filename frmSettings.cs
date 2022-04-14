@@ -5,7 +5,7 @@ namespace ParstebWhatsapp
 {
     public partial class frmSettings : Form
     {
-        private int _reloadInterval, _retryInterval, _maxAttempts;
+        private int _reloadInterval, _retryInterval, _maxAttempts, _daysBeforeToday;
         private string _baseUrl, _debtorMessage, _organMessage, _doctorMessage, _patientMessage, _organExceptions;
         private bool _dontSendToPatients;
         private long _maxDebtAmount;
@@ -70,6 +70,12 @@ namespace ParstebWhatsapp
             set { _organExceptions = value; }
         }
 
+        public int DaysBeforeToday
+        {
+            get { return _daysBeforeToday; }
+            set { _daysBeforeToday = value; }
+        }
+
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
             textLimitation(sender, e);
@@ -95,7 +101,7 @@ namespace ParstebWhatsapp
             set { _patientMessage = value; }
         }
 
-        public frmSettings(string baseUrl, int reloadInterval, int retryInterval, int maxAttempts, string debtorMessage, string organMessage, string doctorMessage, string patientMessage, bool dontSendToPatients, string organExceptions, long maxDebtAmount)
+        public frmSettings(string baseUrl, int reloadInterval, int retryInterval, int maxAttempts, int daysBeforeToday, string debtorMessage, string organMessage, string doctorMessage, string patientMessage, bool dontSendToPatients, string organExceptions, long maxDebtAmount)
         {
             InitializeComponent();
             _reloadInterval = reloadInterval;
@@ -109,6 +115,7 @@ namespace ParstebWhatsapp
             _dontSendToPatients = dontSendToPatients;
             _maxDebtAmount = maxDebtAmount;
             _organExceptions = organExceptions;
+            _daysBeforeToday = daysBeforeToday;
 
             checkBox1.Checked = _dontSendToPatients;
             txtBaseUrl.Text = baseUrl;
@@ -122,6 +129,7 @@ namespace ParstebWhatsapp
             txtReloadInterval.Text = reloadInterval.ToString();
             txtRetryInterval.Text = retryInterval.ToString();
             txtMaxAttempts.Text = maxAttempts.ToString();
+            txtDaysBeforeToday.Text = daysBeforeToday.ToString();
         }
 
         private void btnCancel_Click(object sender, System.EventArgs e)
@@ -134,6 +142,7 @@ namespace ParstebWhatsapp
             int.TryParse(txtReloadInterval.Text, out _reloadInterval);
             int.TryParse(txtRetryInterval.Text, out _retryInterval);
             int.TryParse(txtMaxAttempts.Text, out _maxAttempts);
+            int.TryParse(txtDaysBeforeToday.Text, out _daysBeforeToday);
             long.TryParse(txtMaxDebtAmount.Text, out _maxDebtAmount);
             _baseUrl = txtBaseUrl.Text;
             _debtorMessage = txtDebtorMessage.Text;

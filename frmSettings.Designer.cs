@@ -54,12 +54,15 @@
             this.txtDebtorMessage = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtMaxDebtAmount = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.txtOrganExceptions = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtMaxDebtAmount = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.txtDaysBeforeToday = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -69,7 +72,7 @@
             // btnOk
             // 
             this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnOk.Location = new System.Drawing.Point(381, 423);
+            this.btnOk.Location = new System.Drawing.Point(397, 423);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(99, 41);
             this.btnOk.TabIndex = 12;
@@ -80,7 +83,7 @@
             // btnCancel
             // 
             this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnCancel.Location = new System.Drawing.Point(244, 423);
+            this.btnCancel.Location = new System.Drawing.Point(260, 423);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(99, 41);
             this.btnCancel.TabIndex = 13;
@@ -98,7 +101,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(289, 81);
+            this.groupBox1.Size = new System.Drawing.Size(320, 81);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Whatsapp Service Handler Server";
@@ -124,6 +127,9 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label16);
+            this.groupBox3.Controls.Add(this.txtDaysBeforeToday);
+            this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.txtMaxAttempts);
             this.groupBox3.Controls.Add(this.label8);
@@ -137,7 +143,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox3.Size = new System.Drawing.Size(289, 173);
+            this.groupBox3.Size = new System.Drawing.Size(320, 173);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Timer Settings";
@@ -145,7 +151,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(212, 146);
+            this.label10.Location = new System.Drawing.Point(261, 141);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label10.Size = new System.Drawing.Size(49, 13);
@@ -154,7 +160,7 @@
             // 
             // txtMaxAttempts
             // 
-            this.txtMaxAttempts.Location = new System.Drawing.Point(139, 143);
+            this.txtMaxAttempts.Location = new System.Drawing.Point(188, 138);
             this.txtMaxAttempts.Name = "txtMaxAttempts";
             this.txtMaxAttempts.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.txtMaxAttempts.Size = new System.Drawing.Size(67, 20);
@@ -164,7 +170,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 120);
+            this.label8.Location = new System.Drawing.Point(6, 111);
             this.label8.Name = "label8";
             this.label8.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label8.Size = new System.Drawing.Size(265, 13);
@@ -174,7 +180,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(212, 94);
+            this.label4.Location = new System.Drawing.Point(261, 49);
             this.label4.Name = "label4";
             this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label4.Size = new System.Drawing.Size(43, 13);
@@ -183,7 +189,7 @@
             // 
             // txtRetryInterval
             // 
-            this.txtRetryInterval.Location = new System.Drawing.Point(139, 91);
+            this.txtRetryInterval.Location = new System.Drawing.Point(188, 46);
             this.txtRetryInterval.Name = "txtRetryInterval";
             this.txtRetryInterval.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.txtRetryInterval.Size = new System.Drawing.Size(67, 20);
@@ -193,7 +199,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 68);
+            this.label5.Location = new System.Drawing.Point(43, 49);
             this.label5.Name = "label5";
             this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label5.Size = new System.Drawing.Size(145, 13);
@@ -203,7 +209,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(212, 45);
+            this.label3.Location = new System.Drawing.Point(261, 19);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label3.Size = new System.Drawing.Size(43, 13);
@@ -212,7 +218,7 @@
             // 
             // txtReloadInterval
             // 
-            this.txtReloadInterval.Location = new System.Drawing.Point(139, 42);
+            this.txtReloadInterval.Location = new System.Drawing.Point(188, 16);
             this.txtReloadInterval.Name = "txtReloadInterval";
             this.txtReloadInterval.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.txtReloadInterval.Size = new System.Drawing.Size(67, 20);
@@ -240,7 +246,7 @@
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.txtDebtorMessage);
             this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Location = new System.Drawing.Point(307, 13);
+            this.groupBox2.Location = new System.Drawing.Point(338, 13);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -335,47 +341,10 @@
             this.groupBox4.Controls.Add(this.checkBox1);
             this.groupBox4.Location = new System.Drawing.Point(12, 282);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(289, 129);
+            this.groupBox4.Size = new System.Drawing.Size(320, 129);
             this.groupBox4.TabIndex = 14;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Send Settings";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 22);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(206, 17);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "Don\'t send result to patients by default";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(8, 52);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(122, 13);
-            this.label12.TabIndex = 1;
-            this.label12.Text = "Maximum Debt Amount :";
-            // 
-            // txtMaxDebtAmount
-            // 
-            this.txtMaxDebtAmount.Location = new System.Drawing.Point(136, 49);
-            this.txtMaxDebtAmount.Name = "txtMaxDebtAmount";
-            this.txtMaxDebtAmount.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtMaxDebtAmount.Size = new System.Drawing.Size(105, 20);
-            this.txtMaxDebtAmount.TabIndex = 6;
-            this.txtMaxDebtAmount.Text = "3";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(247, 52);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(30, 13);
-            this.label13.TabIndex = 17;
-            this.label13.Text = "Rials";
             // 
             // txtOrganExceptions
             // 
@@ -395,11 +364,77 @@
             this.label14.TabIndex = 18;
             this.label14.Text = "Organ Exceptions (E.g. 1131, 1173, ...) :";
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(247, 52);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(30, 13);
+            this.label13.TabIndex = 17;
+            this.label13.Text = "Rials";
+            // 
+            // txtMaxDebtAmount
+            // 
+            this.txtMaxDebtAmount.Location = new System.Drawing.Point(136, 49);
+            this.txtMaxDebtAmount.Name = "txtMaxDebtAmount";
+            this.txtMaxDebtAmount.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtMaxDebtAmount.Size = new System.Drawing.Size(105, 20);
+            this.txtMaxDebtAmount.TabIndex = 6;
+            this.txtMaxDebtAmount.Text = "3";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(8, 52);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(122, 13);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "Maximum Debt Amount :";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(12, 22);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(206, 17);
+            this.checkBox1.TabIndex = 5;
+            this.checkBox1.Text = "Don\'t send result to patients by default";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(113, 82);
+            this.label15.Name = "label15";
+            this.label15.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label15.Size = new System.Drawing.Size(75, 13);
+            this.label15.TabIndex = 17;
+            this.label15.Text = "Including last :";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(261, 82);
+            this.label16.Name = "label16";
+            this.label16.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label16.Size = new System.Drawing.Size(29, 13);
+            this.label16.TabIndex = 19;
+            this.label16.Text = "days";
+            // 
+            // txtDaysBeforeToday
+            // 
+            this.txtDaysBeforeToday.Location = new System.Drawing.Point(188, 79);
+            this.txtDaysBeforeToday.Name = "txtDaysBeforeToday";
+            this.txtDaysBeforeToday.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtDaysBeforeToday.Size = new System.Drawing.Size(67, 20);
+            this.txtDaysBeforeToday.TabIndex = 18;
+            this.txtDaysBeforeToday.Text = "1";
+            // 
             // frmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(723, 476);
+            this.ClientSize = new System.Drawing.Size(754, 476);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
@@ -458,5 +493,8 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txtMaxDebtAmount;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox txtDaysBeforeToday;
+        private System.Windows.Forms.Label label15;
     }
 }

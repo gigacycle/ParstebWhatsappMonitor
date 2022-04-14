@@ -207,7 +207,7 @@ namespace ParstebWhatsapp
                     using (SqlCommand cmd = new SqlCommand("SPC_WhatsappReadyAnswersList", con))
                     {
                         cmd.Parameters.Add("@ConfirmDateFrom", SqlDbType.DateTime).Value = from;
-                        cmd.Parameters.Add("@ConfirmDateTo", SqlDbType.DateTime).Value = to;
+                        cmd.Parameters.Add("@ConfirmDateTo", SqlDbType.DateTime).Value = to.AddMinutes(1439);
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         SqlDataAdapter da = new SqlDataAdapter();
